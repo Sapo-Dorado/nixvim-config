@@ -13,6 +13,7 @@
     ./languages/treesitter-context.nix
     ./languages/rainbow-delimiters.nix
 
+    ./lsp/configure-servers.nix
     ./lsp/default.nix
     ./lsp/none-ls.nix
     ./lsp/trouble.nix

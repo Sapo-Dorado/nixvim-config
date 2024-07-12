@@ -56,7 +56,7 @@ contains a sample configuration:
 ```lua
     local telescope = require("telescope")
     local lga_actions = require("telescope-live-grep-args.actions")
-    
+
     telescope.setup {
       extensions = {
         live_grep_args = {
@@ -77,7 +77,7 @@ contains a sample configuration:
         }
       }
     }
-    
+
     -- don't forget to load the extension
     telescope.load_extension("live_grep_args")
 ```
@@ -119,9 +119,9 @@ This snippet was included via the extraConfigLua option inside of ./config/utils
 ```
 
 The keymap "<leader>/" is used to trigger the extension. Additional keybindings
-inside the window can be defined inside the extraConfigLua declaration.  
+inside the window can be defined inside the extraConfigLua declaration.
 
-Todo:  create a pull request for this plugin for [Nixvim](<https://github.com/nix-community/nixvim>)
+Todo: create a pull request for this plugin for [Nixvim](https://github.com/nix-community/nixvim)
 
 ### Adding Prettier Code Folding
 
@@ -151,9 +151,9 @@ examples on how to customize catppuccin inside neovim can be found at: [Catppucc
         __raw =
           # lua
           ''
-            function(colors) 
+            function(colors)
               return {
-                  WinSeparator = { fg = colors.surface2 } 
+                  WinSeparator = { fg = colors.surface2 }
                 }
             end
           '';
@@ -165,13 +165,72 @@ examples on how to customize catppuccin inside neovim can be found at: [Catppucc
 The color palletes for the various catppuccin themes can be found at:
 [Catppuccin Palette](https://catppuccin.com/palette)
 
+### Adding Custom LSP Support
+
+There is no Solidity lsp configured for nixvim. In order to add support for
+Solidity development we can add support for [vscode-solidity-server](https://github.com/juanfranblanco/vscode-solidity)
+
+1. Create a derivation for the language server
+
+   - We can do this using `buildNpmPackage`
+
+   ```nix
+    buildNpmPackage rec {
+      name = "vscode-solidity";
+      buildInputs = lib.optionals stdenv.isDarwin [
+        darwin.apple_sdk.frameworks.Security
+        darwin.apple_sdk.frameworks.AppKit
+      ];
+      src = fetchFromGitHub {
+        owner = "juanfranblanco";
+        repo = name;
+        rev = "39efb5e17efdc1f18e57d1243617110a449b662c";
+        hash = "sha256-dVHgXRq0hMWQiMqvsQ15pn06rPbPkCZkv0m9j6EZ0EQ=";
+      };
+
+      npmBuildScript = "build:cli";
+      npmDepsHash = "sha256-h3PVqxIzOLUl80INF/q68N8pEa27GcucD41h/tekvOU=";
+
+      meta = {
+        description = "A Solidity lsp";
+        license = lib.licenses.mit;
+        maintainers = [ ];
+      };
+    }
+
+   ```
+
+2. Configure the lsp module to use this language server
+
+   - Copy The mk-lsp.nix script from the lsp module fetchFromGitHub (maybe there is a better way to do this)
+   - call mkLsp on the derivation defined above
+
+   ```nix
+   { pkgs, lib, config, ... }: {
+      imports =
+        let mkLsp = import ./helpers/mk-lsp.nix { inherit lib config pkgs; };
+        in [
+          (mkLsp {
+            name = "vscode-solidity-server";
+            description = "LSP for Solidity";
+            package = pkgs.callPackage ./servers/solidity.nix { };
+            cmd = cfg: [ "vscode-solidity-server" "--stdio" ];
+          })
+
+        ];
+    }
+
+   ```
+
+3. Configure neovim lspconfig to recognize the custom lsp
+
 ### Debugging Neovim
 
 Some useful tips for debugging neovim issues:
 
 ```lua
-  -- prints currently loaded packages
-   vim.print(package.loaded)
+    -- prints currently loaded packages
+    vim.print(package.loaded)
 ```
 
 ```lua

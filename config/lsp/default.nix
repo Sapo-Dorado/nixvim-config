@@ -13,6 +13,7 @@
         tsserver.enable = true;
         tailwindcss.enable = true;
         pyright.enable = true;
+        solidity-ls.enable = true;
       };
       keymaps.lspBuf = {
         "gd" = "definition";
