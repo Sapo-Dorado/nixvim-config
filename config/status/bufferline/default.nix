@@ -1,4 +1,4 @@
-{
+{ lib, ... }: {
   plugins.bufferline = {
     enable = true;
     offsets = [{
@@ -20,6 +20,20 @@
       key = "<S-l>";
       action = "<cmd>BufferLineCycleNext<cr>";
       options.desc = "Next Buffer";
+    }
+    {
+      mode = "n";
+      key = "<leader>bd";
+      action = {
+        __raw =
+          # lua
+          ''
+            function()
+              bufremove()
+            end
+          '';
+      };
+      options.desc = "Delete Current Buffer";
     }
     {
       mode = "n";
@@ -52,4 +66,6 @@
       options.desc = "Delete Non-Pinned Buffers";
     }
   ];
+
+  extraConfigLua = lib.readFile ./extra-lua-config.lua;
 }
