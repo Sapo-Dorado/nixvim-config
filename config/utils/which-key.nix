@@ -6,6 +6,7 @@
       "<leader>c" = "+code";
       "<leader>f" = "+find/file";
       "<leader>g" = "+git";
+      "<leader>u" = "+misc";
       "<leader>s" = "+search";
       "<leader>x" = "+diagnostics/quickfix";
 
