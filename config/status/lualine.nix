@@ -2,7 +2,7 @@
   plugins.lualine = {
     enable = true;
     globalstatus = true;
-    extensions = [ "neo-tree" ];
+    extensions = [ "neo-tree" "quickfix" "toggleterm" ];
     sections = {
       lualine_a = [ "mode" ];
       lualine_b = [ "branch" ];
@@ -18,7 +18,11 @@
             };
           };
         }
-        "filename"
+        {
+          name = "filename";
+          extraConfig = { path = 1; };
+        }
+
       ];
       lualine_x = [
         # lua
