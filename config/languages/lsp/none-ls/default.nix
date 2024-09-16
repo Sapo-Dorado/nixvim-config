@@ -1,4 +1,4 @@
-{ lib, ... }@inputs: {
+{ lib, ... }: {
   plugins.none-ls = {
     enable = true;
     settings = {

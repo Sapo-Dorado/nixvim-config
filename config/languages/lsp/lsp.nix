@@ -13,6 +13,11 @@
         tsserver.enable = true;
         tailwindcss.enable = true;
         pyright.enable = true;
+        rust-analyzer = {
+          installCargo = true;
+          installRustc = true;
+          enable = true;
+        };
       };
       keymaps.lspBuf = {
         "gd" = "definition";
@@ -27,7 +32,6 @@
     };
     inc-rename.enable = true;
     lsp-lines.enable = true;
-    rust-tools.enable = true;
   };
 
   diagnostics = { virtual_lines.only_current_line = true; };
