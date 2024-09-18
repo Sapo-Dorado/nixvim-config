@@ -69,5 +69,11 @@
         desc = "Up";
       };
     }
+    {
+      mode = [ "n" "x" ];
+      key = "<leader>cc";
+      action = ''vim.api.nvim_command(" cclose ")'';
+      options.desc = "close quickfix window";
+    }
   ];
 }
