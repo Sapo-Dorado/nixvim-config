@@ -2,6 +2,14 @@
   globals.mapleader = " ";
   keymaps = [
     {
+      key = "<leader>q";
+      action = "<cmd>qall<CR>";
+      options = {
+        desc = "Quit Neovim";
+        silent = true;
+      };
+    }
+    {
       key = "<leader>-";
       action = "<C-W>s";
       options = {
@@ -39,9 +47,7 @@
           vim.notify(string.format("Buffer Diagnostics %s", vim.diagnostic.is_enabled({ bufnr = vim.api.nvim_get_current_buf() }), "info"))
         end
       '';
-      options = {
-        desc = "Buffer Diagnostics toggle";
-      };
+      options = { desc = "Buffer Diagnostics toggle"; };
     }
 
     {
@@ -58,9 +64,7 @@
         end
 
       '';
-      options = {
-        desc = "Global Diagnostics toggle";
-      };
+      options = { desc = "Global Diagnostics toggle"; };
     }
 
   ];
