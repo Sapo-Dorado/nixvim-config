@@ -9,6 +9,7 @@ in
     pkg.curl
     pkg.clang-tools
     pkg.cmake-format
+    pkg.gcc
     pkg.deadnix
     pkg.fd
     pkg.fzf
